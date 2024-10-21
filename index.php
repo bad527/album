@@ -42,7 +42,7 @@
         $album_name=$row["name"];
         $album_owner=$row["owner"];
 
-        $sql="SELECT `flename` FROM `photo` WHERE `album_id`='$album_id'";
+        $sql="SELECT `filename` FROM `photo` WHERE `album_id`='$album_id'";
         $photo_result=executed_sql($link,"album",$sql);
 
         //取得相片包含的相片數目
@@ -53,7 +53,6 @@
             mysqli_fetch_object($photo_result)->$filename;
         }else{
             $cover_photo="None.jpg";
-            
         }
         mysqli_free_result($photo_result);
 
@@ -62,7 +61,7 @@
         }
         echo "<td width='160px'>
               <a href='showAlbum.php?album_id=$album_id'>
-              <img src='Thumbmail/$cover_photo'
+              <img src='Thumbnail/$cover_photo'
                 style='border-color:Black;border-width:1px'>
               <br>$album_name</a><br>$total_photo Pictures";
             
@@ -85,10 +84,10 @@
     //關閉資料連接
     mysqli_close($link);
     echo "<hr><p align='center'>";
-
+    
     //若isset(login_name)傳回FALSE，則表示使用者未登入
     if(!isset($login_name))
-        echo "<a href='login.php'>登入</a>";
+        echo "<a href='logon.php'>登入</a>";
     else
     {
         echo "<a href='addAlbum.php'>新增相簿</a>

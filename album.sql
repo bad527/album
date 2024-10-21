@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1:3306
--- 產生時間： 2024-10-16 17:07:54
+-- 產生時間： 2024-10-21 14:52:58
 -- 伺服器版本： 8.3.0
 -- PHP 版本： 8.2.18
 
@@ -34,7 +34,14 @@ CREATE TABLE IF NOT EXISTS `album` (
   `owner` varchar(30) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
+
+--
+-- 傾印資料表的資料 `album`
+--
+
+INSERT INTO `album` (`id`, `name`, `owner`) VALUES
+(1, '王大頭', 'dk321155');
 
 -- --------------------------------------------------------
 
@@ -50,7 +57,15 @@ CREATE TABLE IF NOT EXISTS `photo` (
   `comment` varchar(540) NOT NULL,
   `album_id` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3;
+
+--
+-- 傾印資料表的資料 `photo`
+--
+
+INSERT INTO `photo` (`id`, `name`, `filename`, `comment`, `album_id`) VALUES
+(8, 'Dumplings2.png', '67165cf11f122.jpg', '', 1),
+(7, 'Dumplings.png', '67165cf10ed38.jpg', '', 1);
 
 -- --------------------------------------------------------
 
@@ -65,6 +80,13 @@ CREATE TABLE IF NOT EXISTS `user` (
   `name` varchar(36) NOT NULL,
   PRIMARY KEY (`account`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;
+
+--
+-- 傾印資料表的資料 `user`
+--
+
+INSERT INTO `user` (`account`, `password`, `name`) VALUES
+('dk321155', 'sprt675m', '王大明');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
