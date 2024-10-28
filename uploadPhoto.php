@@ -13,7 +13,7 @@ if (!file_exists('./Thumbnail')) {
 if(!isset($_POST["album_id"]))
 {
     $album_id=$_GET["album_id"];
-
+    
     //取得相簿名稱及相簿主人
     $sql="SELECT name,owner FROM album WHERE id=$album_id";
     $result=executed_sql($link,"album",$sql);

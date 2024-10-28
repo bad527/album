@@ -10,55 +10,49 @@
     <?php
     require_once("dbtools.inc.php");
 
-    $album_id=$_GET["album"];
-    $photo_id=$_GET["photo"];
+    // 檢查 URL 參數
+    if (!isset($_GET["album"]) || !isset($_GET["photo"])) {
+        die("錯誤：缺少 album 或 photo 參數");
+    }
 
-    $link=create_connection();
+    $album_id = $_GET["album"];
+    $photo_id = $_GET["photo"];
 
-    //取得並顯示相簿名稱
-    $sql="SELECT name FROM album WHERE id=$album_id";
-    $result=executed_sql($link,"album",$sql);
-    $albim_name=mysqli_fetch_object($result)->name;
-    echo "<p align='center'>$albim_name</p>";
+    $link = create_connection();
+    
+    // 取得並顯示相簿名稱
+    $sql = "SELECT name FROM album WHERE id = $album_id";
+    $result = executed_sql($link, "album", $sql);
+    $album_name = mysqli_fetch_object($result)->name;
+    echo "<p align='center'>$album_name</p>";
 
-    //取得並顯示相片資料
-    $sql="SELECT filename,comment FROM photo WHERE id=$photo_id";
-    $result=executed_sql($link,"album",$sql);
-    $row=mysqli_fetch_object($result);
-    $file_name=$row->filename;
-    $comment=$row->comment;
-    echo "<p align='center'><img src='Photo/$file_name'
-        style='border-style:solid;border-width:1px;'></p>";
+    // 取得並顯示相片資料
+    $sql = "SELECT filename, comment FROM photo WHERE id = $photo_id";
+    $result = executed_sql($link, "album", $sql);
+    $row = mysqli_fetch_object($result);
+    $file_name = $row->filename;
+    $comment = $row->comment;
+    echo "<p align='center'><img src='Photo/$file_name' style='border-style:solid;border-width:1px;'></p>";
     echo "<p align='center'>$comment</p>";
 
-    //取得並建立相片導覽資料
-    $sql="SELECT a.id,a.filename FROM(SELECT id,filename FROM photo
-      WHERE album_id=$album_id AND (id<=$photo_id)
-      ORDER BY id DESC) a ORDER BY a.id";
-    $result=executed_sql($link,"album",$sql);
+    // 取得並建立相片導覽資料
+    $sql = "SELECT a.id, a.filename FROM (SELECT id, filename FROM photo
+            WHERE album_id = $album_id AND id <= $photo_id ORDER BY id DESC) a ORDER BY a.id";
+    $result = executed_sql($link, "album", $sql);
     echo "<hr><p align='center'>";
-    while($row=mysqli_fetch_assoc($result))
-    {
-        if($row["id"]==$photo_id)
-        {
-            echo "<img src='Thumbnail/".$row["filename"].
-            "style='border-style:solid;border-color:Red;border-width:2px;'>";
-        }
-        else
-        {
-            echo "<a href='photoDetail.php?album=$album_id&photo=".$row["id"].
-              "'><img src='Thumbnail/".$row["filename"].
-              "' style='border-style:solid;border-color:Black;border-width:1px;'></a>";
+    while ($row = mysqli_fetch_assoc($result)) {
+        if ($row["id"] == $photo_id) {
+            echo "<img src='Thumbnail/" . $row["filename"] . "' style='border-style:solid;border-color:Red;border-width:2px;'>";
+        } else {
+            echo "<a href='photoDetail.php?album=$album_id&photo=" . $row["id"] . "'><img src='Thumbnail/" . $row["filename"] . "' style='border-style:solid;border-color:Black;border-width:1px;'></a>";
         }
     }
-    $sql="SELECT id,filename FROM photo WHERE album_id=$album_id AND 
-      (id>$photo_id) ORDER BY id";
-    $result=executed_sql($link,"album",$sql);
-    while($row=mysqli_fetch_assoc($result))
-    {
-        echo "<a href='photoDetail.php?album_id&photo=".$row["id"].
-        "'><img src='Thumbnail/".$row["filename"].
-        "' style='border-style:solid;border-color:Black;border-width:1px;'></a>";
+
+    // 獲取下一張圖片
+    $sql = "SELECT id, filename FROM photo WHERE album_id = $album_id AND id > $photo_id ORDER BY id";
+    $result = executed_sql($link, "album", $sql);
+    while ($row = mysqli_fetch_assoc($result)) {
+        echo "<a href='photoDetail.php?album=$album_id&photo=" . $row["id"] . "'><img src='Thumbnail/" . $row["filename"] . "' style='border-style:solid;border-color:Black;border-width:1px;'></a>";
     }
     echo "</p>";
 
@@ -67,8 +61,7 @@
     ?>
     <p align="center">
         <a href="index.php">回首頁</a>
-        <a href="showAlbum.php?album_id=<?php echo $album_id?>">
-            回[<?php echo $albim_name?>]相簿</a>
+        <a href="showAlbum.php?album_id=<?php echo $album_id; ?>">回[<?php echo $album_name; ?>]相簿</a>
     </p>
 </body>
 </html>

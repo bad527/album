@@ -4,7 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>電子相簿</title>
+    <script>
+        function Delete(id){
+            if(confirm("確認是否刪除")){
+                window.location.href="delAlbum.php?album_id=" + id;
+            }
+        }
+        function upDate(id){
+            window.location.href="editAlbum.php?album_id=" + id;
+        }
+    </script>
 </head>
+
 <p>
     <p align="center"><img src="Title.jpg"></p>
     <?php
@@ -17,7 +28,7 @@
         $login_user=$_SESSION["login_user"];
         $login_name=$_SESSION["login_name"];
     }
-    
+
     $link=create_connection();
 
     //取得所有相簿資料
@@ -44,20 +55,22 @@
 
         $sql="SELECT `filename` FROM `photo` WHERE `album_id`='$album_id'";
         $photo_result=executed_sql($link,"album",$sql);
-
+        
         //取得相片包含的相片數目
         $total_photo=mysqli_num_rows($photo_result);
 
         //若相片數目大於0，就以第一張當作封面，否則以None.png當作封面
         if($total_photo > 0){
-            mysqli_fetch_object($photo_result)->$filename;
-        }else{
-            $cover_photo="None.jpg";
+            $cover_photo = mysqli_fetch_object($photo_result)->filename;
+            // echo $cover_photo;
+        } else {
+            $cover_photo = "None.jpg";
         }
+        
         mysqli_free_result($photo_result);
 
         if($i%$album_per_row==1){
-            echo "<table align='center' valign='top'>";
+            echo "<tr align='center' valign='top'>";
         }
         echo "<td width='160px'>
               <a href='showAlbum.php?album_id=$album_id'>
@@ -67,8 +80,9 @@
             
         if(isset($login_user) && $album_owner==$login_user)
         {
-            echo "<br><a href='editAlbum.php?album_id=$album_id'>編輯</a>
-                  <a href='#' onclick='DeleteAlbum($album_id)'>刪除</a>";
+            // echo "<br>".$album_owner.','.$login_user;
+            echo "<br><input type='button' onclick='upDate($album_id)' value='編輯'>
+                  <input type='button' onclick='Delete($album_id)' value='刪除'>";
         }
         echo "</p></td>";
 
@@ -94,6 +108,7 @@
             <a href='logout.php'>登出[  $login_name ]</a>";
     }
     ?>
+    
     </p>
 </body>
 </html>

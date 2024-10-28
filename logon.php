@@ -28,13 +28,15 @@ if(isset($_POST["account"]))
         //將使用者資料儲存在_Session
         session_start();
         $row=mysqli_fetch_object($result);
+        // print_r($row);
         $_SESSION["login_user"]=$row->account;
         $_SESSION["login_name"]=$row->name;
-
+        // echo $_SESSION["login_user"];
+        // echo $_SESSION["login_name"];
         mysqli_free_result($result);
 
         mysqli_close($link);
-
+        
         header("location:index.php");
     }
 }

@@ -12,7 +12,7 @@ if(!isset($_POST["album_id"]))
 {
     $album_id=$_GET["album_id"];
     //取得相簿名稱及主人
-    $sql="SELECT name,owner FORM album WHERE id=$album_id";
+    $sql="SELECT name,owner FROM album WHERE id=$album_id";
     $result=executed_sql($link,"album",$sql);
     $row=mysqli_fetch_object($result);
     $album_name=$row->name;

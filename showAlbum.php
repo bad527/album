@@ -60,7 +60,7 @@
         echo "<td width='160px'><a href='photoDetail.php?album=$album_id&photo=$photo_id'>
         <img src='Thumbnail/$file_name' style='border-color:Black; border-width:1px;'>
         <br>$photo_name</a>";
-
+        
         if($album_owner==$login_user)
             echo "<br><a href='editPhoto.php?photo_id=$photo_id'>編輯</a>
                 <a href='#' onclick='DeletePhoto($album_id,$photo_id)'>刪除</a>";
