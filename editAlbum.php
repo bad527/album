@@ -32,9 +32,9 @@ if(!isset($_POST["album_id"]))
 else
 {
     $album_id=$_POST["album_id"];
-    $albim_name=$_POST["album_name"];
+    $album_name=$_POST["album_name"];
 
-    $sql="UPDATE album SET name='$albim_name'
+    $sql="UPDATE album SET name='$album_name'
         WHERE id='$album_id' AND owner='$login_user'";
     executed_sql($link,"album",$sql);
 
